@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLG TOP 10 · 360 NO SCOPE</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --mlg:    #7f00ff;
+      --mlg2:   #ff00ff;
+      --cyan:   #00f0ff;
+      --gold:   #ffd700;
+      --silver: #c0c8d8;
+      --bronze: #e08040;
+      --bg:     #000;
+      --card:   rgba(5,0,15,0.78);
+      --text:   #fff;
+      --dim:    rgba(0,240,255,0.55);
+      --nav-h:  58px;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: radial-gradient(ellipse at center, #0d001a 0%, #000 100%);
+      color: var(--text); min-height: 100vh;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(to bottom,
+        transparent 0px, transparent 3px,
+        rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px);
+      pointer-events: none; z-index: 999;
+    }
+
+    .particle {
+      position: fixed; border-radius: 50%;
+      background: var(--mlg); opacity: 0; pointer-events: none; z-index: 0;
+      animation: drift var(--d) ease-in-out infinite var(--delay);
+    }
+    @keyframes drift {
+      0%,100%{opacity:0;transform:translateY(0)scale(.4)}
+      50%{opacity:var(--op);transform:translateY(-18px)scale(1)}
+    }
+
+    .corner {
+      position: fixed; width: 44px; height: 44px; z-index: 5; pointer-events: none;
+      animation: cGlow 2.5s ease-in-out infinite alternate;
+    }
+    .corner.tl { top:14px; left:14px; border-top:2px solid var(--mlg); border-left:2px solid var(--mlg); }
+    .corner.tr { top:14px; right:14px; border-top:2px solid var(--cyan); border-right:2px solid var(--cyan); }
+    .corner.bl { bottom:14px; left:14px; border-bottom:2px solid var(--mlg2); border-left:2px solid var(--mlg2); }
+    .corner.br { bottom:14px; right:14px; border-bottom:2px solid var(--mlg); border-right:2px solid var(--mlg); }
+    @keyframes cGlow { to { filter: drop-shadow(0 0 6px currentColor); } }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(0,0,0,0.92);
+      border-bottom: 2px solid var(--mlg);
+      box-shadow: 0 0 20px rgba(127,0,255,0.4);
+      display: flex; align-items: center;
+      padding: 0 24px; gap: 10px; z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .nav-brand {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px; font-weight: 900;
+      letter-spacing: 4px; flex: 1;
+      animation: brandRainbow 2s infinite linear;
+    }
+    @keyframes brandRainbow {
+      0%  {color:#fff;text-shadow:0 0 12px var(--mlg);}
+      33% {color:var(--cyan);text-shadow:0 0 12px var(--cyan);}
+      66% {color:var(--mlg2);text-shadow:0 0 12px var(--mlg2);}
+      100%{color:#fff;text-shadow:0 0 12px var(--mlg);}
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 2px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      cursor: pointer; border: 1px solid var(--mlg);
+      background: rgba(127,0,255,0.08);
+      color: rgba(127,0,255,0.8);
+      transition: all 0.25s; text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:hover {
+      background: rgba(127,0,255,0.25); border-color: var(--cyan);
+      color: var(--cyan); box-shadow: 0 0 16px rgba(127,0,255,0.4);
+      transform: translateY(-1px);
+    }
+
+    /* ── MAIN ── */
+    main {
+      padding-top: calc(var(--nav-h) + 40px);
+      padding-bottom: 60px; max-width: 1200px;
+      margin: 0 auto; padding-left: 24px; padding-right: 24px;
+      position: relative; z-index: 1;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px; font-weight: 900;
+      letter-spacing: 6px; margin-bottom: 6px;
+      animation: titleRainbow 2s infinite linear;
+    }
+    @keyframes titleRainbow {
+      0%  {color:#fff;text-shadow:0 0 20px var(--mlg),0 0 40px var(--mlg2);}
+      33% {color:var(--cyan);text-shadow:0 0 20px var(--cyan),0 0 40px var(--mlg);}
+      66% {color:var(--mlg2);text-shadow:0 0 20px var(--mlg2),0 0 40px var(--cyan);}
+      100%{color:#fff;text-shadow:0 0 20px var(--mlg),0 0 40px var(--mlg2);}
+    }
+    .subtitle {
+      color: var(--dim); font-size: 13px;
+      letter-spacing: 2px; margin-bottom: 36px;
+      text-shadow: 0 0 6px rgba(0,240,255,0.3);
+    }
+
+    /* ── Layout 2 columnas ── */
+    .layout-split { display: flex; gap: 28px; align-items: flex-start; }
+    .col-podio { flex: 0 0 270px; position: sticky; top: calc(var(--nav-h) + 20px); }
+    .col-lista { flex: 1; min-width: 0; }
+
+    /* ── PODIO ── */
+    .podio-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px; letter-spacing: 3px;
+      color: var(--dim); text-transform: uppercase;
+      margin-bottom: 14px; text-shadow: 0 0 6px var(--cyan);
+    }
+    .podio { display: flex; flex-direction: column; gap: 10px; }
+
+    .podio-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 3px;
+      background: var(--card);
+      border: 1px solid rgba(127,0,255,0.25);
+      animation: fadeUp 0.5s ease both;
+      position: relative; overflow: hidden;
+    }
+    .podio-item::before {
+      content: ''; position: absolute; inset: 0;
+      opacity: 0.04; pointer-events: none;
+    }
+    .podio-item.gold   { border-color:rgba(255,215,0,.6);  box-shadow:0 0 20px rgba(255,215,0,.2); }
+    .podio-item.gold::before   { background:var(--gold); opacity:.06; }
+    .podio-item.silver { border-color:rgba(192,200,216,.5); box-shadow:0 0 16px rgba(192,200,216,.1); }
+    .podio-item.silver::before { background:var(--silver); }
+    .podio-item.bronze { border-color:rgba(224,128,64,.5);  box-shadow:0 0 16px rgba(224,128,64,.15); }
+    .podio-item.bronze::before { background:var(--bronze); }
+    .podio-item:nth-child(1){animation-delay:.0s}
+    .podio-item:nth-child(2){animation-delay:.1s}
+    .podio-item:nth-child(3){animation-delay:.2s}
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+    .podio-medal {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0; background: var(--bg);
+      border: 2px solid transparent;
+    }
+    .podio-item.gold   .podio-medal { border-color:var(--gold);   box-shadow:0 0 14px rgba(255,215,0,.5); }
+    .podio-item.silver .podio-medal { border-color:var(--silver); box-shadow:0 0 10px rgba(192,200,216,.3); }
+    .podio-item.bronze .podio-medal { border-color:var(--bronze); box-shadow:0 0 10px rgba(224,128,64,.3); }
+
+    .podio-info { flex: 1; min-width: 0; }
+    .podio-rank {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px; font-weight: 700; letter-spacing: 2px; margin-bottom: 2px;
+    }
+    .podio-item.gold   .podio-rank { color:var(--gold);  text-shadow:0 0 8px var(--gold); }
+    .podio-item.silver .podio-rank { color:var(--silver);}
+    .podio-item.bronze .podio-rank { color:var(--bronze);}
+
+    .podio-nombre { font-weight: 700; font-size: 14px; color:var(--text); }
+    .podio-carrera { font-size: 11px; color: var(--dim); }
+
+    .podio-score { font-family:'Orbitron',sans-serif; font-size: 18px; font-weight: 900; flex-shrink:0; }
+    .podio-item.gold   .podio-score { color:var(--gold);   text-shadow:0 0 12px var(--gold); }
+    .podio-item.silver .podio-score { color:var(--silver); }
+    .podio-item.bronze .podio-score { color:var(--bronze); }
+
+    /* ── CARD lista ── */
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(127,0,255,0.3);
+      border-radius: 3px; overflow: hidden;
+      box-shadow: 0 0 30px rgba(127,0,255,0.1), 0 8px 32px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 3px;
+      color: var(--dim); padding: 16px 22px 12px;
+      border-bottom: 1px solid rgba(127,0,255,0.2);
+      text-shadow: 0 0 6px var(--cyan);
+    }
+    .rank-list { list-style: none; }
+    .rank-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 22px;
+      border-top: 1px solid rgba(127,0,255,0.12);
+      animation: fadeUp 0.4s ease both;
+      transition: background 0.15s;
+    }
+    .rank-item:hover { background: rgba(127,0,255,0.08); }
+
+    .rank-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px; color: var(--dim);
+      width: 24px; text-align: right; flex-shrink: 0; font-weight: 700;
+    }
+    .rank-info { flex: 1; min-width: 0; }
+    .rank-nombre { font-weight: 700; font-size: 14px; color:var(--text); }
+    .rank-carrera { font-size: 11px; color: var(--dim); margin-top: 1px; }
+    .notas-detalle { display: flex; gap: 5px; margin-top: 4px; }
+    .nota-chip {
+      font-size: 10px;
+      background: rgba(127,0,255,0.1);
+      border: 1px solid rgba(127,0,255,0.3);
+      border-radius: 2px; padding: 2px 7px;
+      color: rgba(0,240,255,0.6);
+    }
+    .rank-bar-wrap {
+      width: 72px; height: 4px;
+      background: rgba(127,0,255,0.15);
+      border-radius: 99px; overflow: hidden; flex-shrink: 0;
+    }
+    .rank-bar {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--mlg), var(--cyan));
+      transition: width 0.8s ease;
+    }
+    .rank-score {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px; font-weight: 900; color: var(--cyan);
+      text-shadow: 0 0 8px var(--cyan); flex-shrink: 0;
+    }
+
+    .empty {
+      text-align: center; color: var(--dim);
+      padding: 40px; font-size: 14px; letter-spacing: 2px;
+    }
+
+    @media (max-width: 700px) {
+      .layout-split { flex-direction: column; }
+      .col-podio { flex: unset; width: 100%; position: static; }
+    }
+
+        /* ── VIDEO EASTER EGG (presiona R) ── */
+    #eggOverlay {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      opacity: 0; transition: opacity 0.35s ease;
+    }
+    #eggOverlay.show { opacity: 1; }
+    #eggVideo {
+      width: clamp(260px, 32vw, 480px);
+      height: auto;
+      /* chroma-key verde: screen quita el fondo verde del webm */
+      mix-blend-mode: screen;
+      filter: saturate(1.4) contrast(1.1);
+      display: block;
+      /* sin border ni sombra: el video flota libremente sobre la UI */
+    }
+  </style>
+</head>
+<body>
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<nav>
+  <div class="nav-brand">🎮 MLG · TOP ESTUDIANTES</div>
+  <a class="btn" href="/dashprincipal">← VOLVER</a>
+</nav>
+
+<main>
+  <h1>🏆 TOP 10 ESTUDIANTES</h1>
+  <p class="subtitle">▶ RANKING POR PROMEDIO DE NOTAS · 360 NO SCOPE ◀</p>
+  <div id="contenido"><p class="empty">💀 CARGANDO DATOS...</p></div>
+</main>
+
+<!-- VIDEO EASTER EGG (presiona R) -->
+<div id="eggOverlay">
+  <video id="eggVideo" src="/static/chroma-keyed-video.webm" preload="auto" playsinline></video>
+</div>
+<audio id="vineAudio" src="/static/Vine boom sound effect.mp3" preload="auto"></audio>
+
+<script>
+  // Partículas
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div'); p.className = 'particle';
+    const sz = Math.random() * 2.5 + 1;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;--d:${3+Math.random()*5}s;--delay:-${Math.random()*5}s;--op:${.1+Math.random()*.25};`;
+    document.body.appendChild(p);
+  }
+
+    // Video easter egg (presiona R)
+  (function () {
+    var eggTimer = null;
+    var vid = document.getElementById('eggVideo');
+
+    document.addEventListener('keydown', function (e) {
+      if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+      if (e.key === 'r' || e.key === 'R') showEgg();
+    });
+
+    function showEgg() {
+      var overlay = document.getElementById('eggOverlay');
+      var audio   = document.getElementById('vineAudio');
+      clearTimeout(eggTimer);
+      // reiniciar animación de overlay
+      overlay.classList.remove('show');
+      void overlay.offsetWidth;
+      overlay.classList.add('show');
+      // reiniciar y reproducir video
+      vid.currentTime = 0;
+      vid.play().catch(function(){});
+      // sonido
+      audio.currentTime = 0;
+      audio.play().catch(function(){});
+      // esconder cuando termine el video (o tras 8s máximo)
+      vid.onended = function() { overlay.classList.remove('show'); };
+      eggTimer = setTimeout(function () { overlay.classList.remove('show'); }, 8000);
+    }
+  })();
+
+  // Cargar top
+  async function cargarTop() {
+    try {
+      const res  = await fetch('/api/estudiantes/top');
+      const data = await res.json();
+      if (!data.ok || data.estudiantes.length === 0) {
+        document.getElementById('contenido').innerHTML = '<p class="empty">💀 No hay estudiantes registrados.</p>';
+        return;
+      }
+      const est = data.estudiantes;
+      let html = '<div class="layout-split">';
+
+      // Columna izquierda: Podio
+      const clases = ['gold','silver','bronze'];
+      const emojis = ['🥇','🥈','🥉'];
+      const labels = ['1° LUGAR','2° LUGAR','3° LUGAR'];
+      html += '<div class="col-podio">';
+      html += '<div class="podio-label">🏅 PODIO MLG</div><div class="podio">';
+      est.slice(0,3).forEach((e,i) => {
+        html += `<div class="podio-item ${clases[i]}">
+          <div class="podio-medal">${emojis[i]}</div>
+          <div class="podio-info">
+            <div class="podio-rank">${labels[i]}</div>
+            <div class="podio-nombre">${e.nombre}</div>
+            <div class="podio-carrera">${e.carrera}</div>
+          </div>
+          <div class="podio-score">${e.promedio}</div>
+        </div>`;
+      });
+      html += '</div></div>';
+
+      // Columna derecha: lista
+      html += '<div class="col-lista">';
+      const resto = est.slice(3);
+      if (resto.length > 0) {
+        html += `<div class="card">
+          <div class="card-title">💥 POSICIONES 4 – ${Math.min(10, est.length)}</div>
+          <ul class="rank-list">`;
+        resto.forEach((e, i) => {
+          const pct   = ((e.promedio / 5) * 100).toFixed(1);
+          const delay = (i * 0.06).toFixed(2);
+          html += `<li class="rank-item" style="animation-delay:${delay}s">
+            <span class="rank-num">${i+4}</span>
+            <div class="rank-info">
+              <div class="rank-nombre">${e.nombre}</div>
+              <div class="rank-carrera">${e.carrera}</div>
+              <div class="notas-detalle">
+                <span class="nota-chip">N1: ${e.nota1}</span>
+                <span class="nota-chip">N2: ${e.nota2}</span>
+                <span class="nota-chip">N3: ${e.nota3}</span>
+              </div>
+            </div>
+            <div class="rank-bar-wrap"><div class="rank-bar" style="width:${pct}%"></div></div>
+            <div class="rank-score">${e.promedio}</div>
+          </li>`;
+        });
+        html += '</ul></div>';
+      } else {
+        html += '<p class="empty">Solo hay 3 guerreros en el podio.</p>';
+      }
+      html += '</div></div>';
+
+      document.getElementById('contenido').innerHTML = html;
+    } catch(err) {
+      document.getElementById('contenido').innerHTML = '<p class="empty">💀 Error al cargar los datos.</p>';
+    }
+  }
+
+  cargarTop();
+
+
+</script>
+<script src="{{ url_for('static', filename='banana.js') }}"></script>
+</body>
+</html>

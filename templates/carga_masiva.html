@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLG · CARGA MASIVA 420</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --mlg:    #7f00ff;
+      --mlg2:   #ff00ff;
+      --cyan:   #00f0ff;
+      --green:  #00ff88;
+      --red:    #ff3333;
+      --yellow: #ffd700;
+      --blue:   #3af;
+      --bg:     #000;
+      --card:   rgba(5,0,15,0.78);
+      --text:   #fff;
+      --dim:    rgba(0,240,255,0.55);
+      --nav-h:  58px;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: radial-gradient(ellipse at center, #0d001a 0%, #000 100%);
+      color: var(--text); min-height: 100vh;
+    }
+
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background: repeating-linear-gradient(to bottom,
+        transparent 0px, transparent 3px,
+        rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px);
+      pointer-events: none; z-index: 999;
+    }
+
+    .particle {
+      position: fixed; border-radius: 50%;
+      background: var(--mlg); opacity: 0; pointer-events: none; z-index: 0;
+      animation: drift var(--d) ease-in-out infinite var(--delay);
+    }
+    @keyframes drift {
+      0%,100%{opacity:0;transform:translateY(0)scale(.4)}
+      50%{opacity:var(--op);transform:translateY(-18px)scale(1)}
+    }
+
+    .corner {
+      position: fixed; width: 44px; height: 44px; z-index: 5; pointer-events: none;
+      animation: cGlow 2.5s ease-in-out infinite alternate;
+    }
+    .corner.tl{top:14px;left:14px;border-top:2px solid var(--mlg);border-left:2px solid var(--mlg);}
+    .corner.tr{top:14px;right:14px;border-top:2px solid var(--cyan);border-right:2px solid var(--cyan);}
+    .corner.bl{bottom:14px;left:14px;border-bottom:2px solid var(--mlg2);border-left:2px solid var(--mlg2);}
+    .corner.br{bottom:14px;right:14px;border-bottom:2px solid var(--mlg);border-right:2px solid var(--mlg);}
+    @keyframes cGlow { to { filter: drop-shadow(0 0 6px currentColor); } }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(0,0,0,0.92);
+      border-bottom: 2px solid var(--mlg);
+      box-shadow: 0 0 20px rgba(127,0,255,0.4);
+      display: flex; align-items: center;
+      padding: 0 24px; gap: 10px; z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .nav-brand {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px; font-weight: 900;
+      letter-spacing: 4px; flex: 1;
+      animation: brandRainbow 2s infinite linear;
+    }
+    @keyframes brandRainbow {
+      0%  {color:#fff;text-shadow:0 0 12px var(--mlg);}
+      33% {color:var(--cyan);text-shadow:0 0 12px var(--cyan);}
+      66% {color:var(--mlg2);text-shadow:0 0 12px var(--mlg2);}
+      100%{color:#fff;text-shadow:0 0 12px var(--mlg);}
+    }
+    .btn-nav {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 2px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      cursor: pointer; border: 1px solid var(--mlg);
+      background: rgba(127,0,255,0.08);
+      color: rgba(127,0,255,0.8);
+      transition: all 0.25s; text-decoration: none;
+    }
+    .btn-nav:hover {
+      background: rgba(127,0,255,0.25); border-color: var(--cyan);
+      color: var(--cyan); box-shadow: 0 0 16px rgba(127,0,255,0.4);
+      transform: translateY(-1px);
+    }
+
+    /* ── MAIN ── */
+    main {
+      padding-top: calc(var(--nav-h) + 40px);
+      padding-bottom: 60px; max-width: 820px;
+      margin: 0 auto; padding-left: 24px; padding-right: 24px;
+      position: relative; z-index: 1;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px; font-weight: 900;
+      letter-spacing: 5px; margin-bottom: 6px;
+      animation: titleRainbow 2s infinite linear;
+    }
+    @keyframes titleRainbow {
+      0%  {color:#fff;text-shadow:0 0 20px var(--mlg);}
+      33% {color:var(--cyan);text-shadow:0 0 20px var(--cyan);}
+      66% {color:var(--mlg2);text-shadow:0 0 20px var(--mlg2);}
+      100%{color:#fff;text-shadow:0 0 20px var(--mlg);}
+    }
+    .subtitle { color: var(--dim); font-size: 13px; letter-spacing: 2px; margin-bottom: 32px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(127,0,255,0.3);
+      border-radius: 3px; padding: 24px; margin-bottom: 20px;
+      box-shadow: 0 0 30px rgba(127,0,255,0.1), 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .card-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 3px;
+      color: var(--dim); margin-bottom: 16px;
+      text-shadow: 0 0 6px var(--cyan);
+    }
+
+    /* ── DROPZONE ── */
+    .dropzone {
+      border: 2px dashed rgba(127,0,255,0.4);
+      border-radius: 3px; padding: 44px 20px;
+      text-align: center; cursor: pointer;
+      transition: all 0.25s; position: relative;
+    }
+    .dropzone:hover, .dropzone.drag-over {
+      border-color: var(--cyan);
+      background: rgba(0,240,255,0.03);
+      box-shadow: 0 0 20px rgba(0,240,255,0.1);
+    }
+    .dropzone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width:100%; height:100%;
+    }
+    .dropzone-icon { font-size: 2.4rem; margin-bottom: 12px; }
+    .dropzone-text { font-size: 14px; color: var(--dim); letter-spacing: 1px; }
+    .dropzone-text strong { color: var(--text); }
+    .file-name { margin-top: 12px; font-size: 12px; color: var(--cyan); display: none; letter-spacing: 1px; text-shadow: 0 0 6px var(--cyan); }
+
+    /* ── FORMATO ── */
+    .format-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .format-table th {
+      text-align: left; padding: 8px 12px;
+      background: rgba(127,0,255,0.1);
+      border: 1px solid rgba(127,0,255,0.2);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px; font-weight: 700; color: var(--dim); letter-spacing: 1px;
+    }
+    .format-table td {
+      padding: 8px 12px;
+      border: 1px solid rgba(127,0,255,0.12);
+      color: var(--text); font-size: 12px;
+    }
+
+    /* ── BTN UPLOAD ── */
+    .btn-upload {
+      width: 100%; padding: 13px; border: none; border-radius: 2px; cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px; font-weight: 700; letter-spacing: 3px; margin-top: 20px;
+      background: linear-gradient(90deg, var(--mlg2), var(--mlg), var(--cyan), var(--mlg2));
+      background-size: 300% 100%;
+      animation: btnShift 2s infinite linear;
+      color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.5);
+      box-shadow: 0 0 20px rgba(127,0,255,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    @keyframes btnShift { 0%{background-position:0%} 100%{background-position:300%} }
+    .btn-upload:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,240,255,0.5); }
+    .btn-upload:disabled { opacity: 0.35; cursor: not-allowed; transform: none; animation: none; background: rgba(127,0,255,0.3); }
+
+    .loader { display: none; text-align: center; padding: 20px; color: var(--dim); font-size: 13px; letter-spacing: 2px; }
+    .loader::after { content: ''; animation: dots 1.2s steps(3,end) infinite; }
+    @keyframes dots { 0%{content:'.'}33%{content:'..'}66%{content:'...'}100%{content:'.'} }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px; margin-bottom: 20px;
+    }
+    .stat-card {
+      border-radius: 3px; padding: 18px; text-align: center; border: 1px solid;
+    }
+    .stat-card.ok  { background:rgba(0,255,136,.07);  border-color:rgba(0,255,136,.3);  color:var(--green); }
+    .stat-card.dup { background:rgba(255,215,0,.07);   border-color:rgba(255,215,0,.3);  color:var(--yellow);}
+    .stat-card.vac { background:rgba(0,170,255,.07);   border-color:rgba(0,170,255,.3);  color:var(--blue); }
+    .stat-card.inv { background:rgba(255,51,51,.07);   border-color:rgba(255,51,51,.3);  color:var(--red);  }
+    .stat-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem; font-weight: 900; display: block; line-height: 1;
+    }
+    .stat-label { font-size: 11px; margin-top: 6px; font-weight: 700; opacity: 0.85; letter-spacing: 1px; }
+
+    /* ── BANNERS ── */
+    .success-banner, .error-banner {
+      padding: 12px 16px; border-radius: 3px;
+      font-size: 13px; font-weight: 700; margin-bottom: 14px;
+      display: none; letter-spacing: 1px;
+    }
+    .success-banner { background:rgba(0,255,136,.1); border:1px solid rgba(0,255,136,.4); color:var(--green); text-shadow:0 0 6px var(--green); }
+    .error-banner   { background:rgba(255,51,51,.1); border:1px solid rgba(255,51,51,.4); color:var(--red); text-shadow:0 0 6px var(--red); }
+
+    /* ── TABLA ERRORES ── */
+    .error-section { display: none; }
+    .error-section.visible { display: block; }
+    .error-section h3 { font-family:'Orbitron',sans-serif; font-size: 12px; font-weight: 700; margin-bottom: 14px; color: var(--text); letter-spacing: 2px; }
+    .error-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .error-table th {
+      text-align: left; padding: 10px 14px;
+      background: rgba(127,0,255,0.1);
+      border: 1px solid rgba(127,0,255,0.2);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px; color: var(--dim); text-transform: uppercase; letter-spacing: 2px;
+    }
+    .error-table td { padding: 10px 14px; border: 1px solid rgba(127,0,255,0.12); color: var(--text); }
+    .error-table tr:nth-child(even) td { background: rgba(127,0,255,0.04); }
+
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 2px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    }
+    .badge-dup { background:rgba(255,215,0,.1); color:var(--yellow); border:1px solid rgba(255,215,0,.3); }
+    .badge-inv { background:rgba(255,51,51,.1);  color:var(--red);    border:1px solid rgba(255,51,51,.3); }
+    .badge-vac { background:rgba(0,170,255,.1);  color:var(--blue);   border:1px solid rgba(0,170,255,.3); }
+
+        /* ── VIDEO EASTER EGG (presiona R) ── */
+    #eggOverlay {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      opacity: 0; transition: opacity 0.35s ease;
+    }
+    #eggOverlay.show { opacity: 1; }
+    #eggVideo {
+      width: clamp(260px, 32vw, 480px);
+      height: auto;
+      /* chroma-key verde: screen quita el fondo verde del webm */
+      mix-blend-mode: screen;
+      filter: saturate(1.4) contrast(1.1);
+      display: block;
+      /* sin border ni sombra: el video flota libremente sobre la UI */
+    }
+  </style>
+</head>
+<body>
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<nav>
+  <div class="nav-brand">🎮 MLG · CARGA MASIVA</div>
+  <a class="btn-nav" href="/dashprincipal">← VOLVER</a>
+</nav>
+
+<main>
+  <h1>📤 CARGA MASIVA</h1>
+  <p class="subtitle">▶ SUBE TU EXCEL Y DOMINA EL LEADERBOARD ◀</p>
+
+  <!-- Formato esperado -->
+  <div class="card">
+    <div class="card-title">📋 FORMATO DEL ARCHIVO</div>
+    <table class="format-table">
+      <thead>
+        <tr>
+          <th>nombre</th><th>edad</th><th>carrera</th>
+          <th>nota1</th><th>nota2</th><th>nota3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Maria</td><td>20</td><td>Ingenieria</td>
+          <td>4.5</td><td>3.8</td><td>5.0</td>
+        </tr>
+        <tr>
+          <td>Luis</td><td>21</td><td>Fisica</td>
+          <td>3.0</td><td>4.2</td><td>3.5</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Upload -->
+  <div class="card">
+    <div class="card-title">⚡ SUBIR ARCHIVO</div>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" name="archivo" accept=".xlsx,.xls">
+        <div class="dropzone-icon">💾</div>
+        <div class="dropzone-text">
+          <strong>Arrastra tu Excel aquí</strong> o haz click para seleccionar<br>
+          <span style="font-size:11px;letter-spacing:1px;opacity:0.6">Soporta .xlsx y .xls</span>
+        </div>
+        <div class="file-name" id="fileName"></div>
+      </div>
+      <button type="submit" class="btn-upload" id="btnUpload" disabled>💥 CARGAR AL SISTEMA</button>
+    </form>
+    <div class="loader" id="loader">⚡ PROCESANDO GUERREROS</div>
+  </div>
+
+  <!-- Resultado -->
+  <div id="resultadoSection" style="display:none">
+    <div class="success-banner" id="successBanner"></div>
+    <div class="error-banner"   id="errorBanner"></div>
+
+    <div class="card">
+      <div class="card-title">💥 RESUMEN DE LA CARGA</div>
+      <div class="stats-grid">
+        <div class="stat-card ok">
+          <span class="stat-num" id="statInsertados">0</span>
+          <div class="stat-label">✅ INSERTADOS</div>
+        </div>
+        <div class="stat-card dup">
+          <span class="stat-num" id="statDuplicados">0</span>
+          <div class="stat-label">⚠️ DUPLICADOS</div>
+        </div>
+        <div class="stat-card vac">
+          <span class="stat-num" id="statVacios">0</span>
+          <div class="stat-label">🔲 VACÍOS</div>
+        </div>
+        <div class="stat-card inv">
+          <span class="stat-num" id="statInvalidos">0</span>
+          <div class="stat-label">❌ INVÁLIDOS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card error-section" id="errorSection">
+      <div class="card-title">💀 REGISTROS RECHAZADOS</div>
+      <h3>Datos que no pasaron el filtro MLG</h3>
+      <table class="error-table">
+        <thead>
+          <tr><th>#</th><th>Estudiante</th><th>Motivo del rechazo</th><th>Tipo</th></tr>
+        </thead>
+        <tbody id="errorTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<!-- VIDEO EASTER EGG (presiona R) -->
+<div id="eggOverlay">
+  <video id="eggVideo" src="/static/chroma-keyed-video.webm" preload="auto" playsinline></video>
+</div>
+<audio id="vineAudio" src="/static/Vine boom sound effect.mp3" preload="auto"></audio>
+
+<script>
+  // Partículas
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div'); p.className = 'particle';
+    const sz = Math.random() * 2.5 + 1;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;--d:${3+Math.random()*5}s;--delay:-${Math.random()*5}s;--op:${.1+Math.random()*.25};`;
+    document.body.appendChild(p);
+  }
+
+  const fileInput = document.getElementById('fileInput');
+  const fileName  = document.getElementById('fileName');
+  const btnUpload = document.getElementById('btnUpload');
+  const dropzone  = document.getElementById('dropzone');
+  const form      = document.getElementById('uploadForm');
+  const loader    = document.getElementById('loader');
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+      fileName.textContent = '💾 ' + fileInput.files[0].name;
+      fileName.style.display = 'block';
+      btnUpload.disabled = false;
+    }
+  });
+
+  dropzone.addEventListener('dragover',  e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+  dropzone.addEventListener('drop', e => {
+    e.preventDefault(); dropzone.classList.remove('drag-over');
+    fileInput.files = e.dataTransfer.files;
+    fileInput.dispatchEvent(new Event('change'));
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loader.style.display = 'block';
+    btnUpload.disabled = true;
+    document.getElementById('resultadoSection').style.display = 'none';
+
+    const formData = new FormData();
+    formData.append('archivo', fileInput.files[0]);
+
+    try {
+      const res  = await fetch('/carga_masiva', { method: 'POST', body: formData });
+      const data = await res.json();
+      loader.style.display = 'none';
+      document.getElementById('resultadoSection').style.display = 'block';
+
+      if (data.ok) {
+        const banner = document.getElementById('successBanner');
+        banner.style.display = 'block';
+        banner.textContent = `✅ ARCHIVO PROCESADO. ${data.insertados} guerrero(s) añadido(s) a la arena.`;
+        document.getElementById('errorBanner').style.display = 'none';
+
+        document.getElementById('statInsertados').textContent = data.insertados;
+        document.getElementById('statDuplicados').textContent = data.duplicados;
+        document.getElementById('statVacios').textContent     = data.vacios;
+        document.getElementById('statInvalidos').textContent  = data.invalidos;
+
+        const tbody = document.getElementById('errorTableBody');
+        tbody.innerHTML = '';
+        if (data.detalles && data.detalles.length > 0) {
+          document.getElementById('errorSection').classList.add('visible');
+          data.detalles.forEach((msg, i) => {
+            const { nombre, motivo, tipo } = parsearError(msg);
+            const bc = tipo==='Duplicado' ? 'badge-dup' : tipo==='Vacío' ? 'badge-vac' : 'badge-inv';
+            tbody.innerHTML += `<tr>
+              <td style="color:rgba(0,240,255,0.4)">${i+1}</td>
+              <td><strong>${nombre}</strong></td>
+              <td>${motivo}</td>
+              <td><span class="badge ${bc}">${tipo}</span></td>
+            </tr>`;
+          });
+        } else {
+          document.getElementById('errorSection').classList.remove('visible');
+        }
+      } else {
+        const banner = document.getElementById('errorBanner');
+        banner.style.display = 'block';
+        banner.textContent = '❌ ' + data.error;
+        document.getElementById('successBanner').style.display = 'none';
+        document.getElementById('errorSection').classList.remove('visible');
+      }
+    } catch(err) {
+      loader.style.display = 'none';
+      const banner = document.getElementById('errorBanner');
+      banner.style.display = 'block';
+      banner.textContent = '❌ Error de conexión al servidor. La arena está caída.';
+      document.getElementById('resultadoSection').style.display = 'block';
+    }
+    btnUpload.disabled = false;
+  });
+
+  function parsearError(msg) {
+    let nombre = "Desconocido", motivo = msg, tipo = "Inválido";
+    if (msg.includes("Ya existe en BD")) {
+      tipo = "Duplicado";
+      const m = msg.match(/— (.+)/); if (m) nombre = m[1];
+      motivo = "Ya existe un guerrero con el mismo nombre, carrera y edad.";
+    } else if (msg.includes("Edad inválida")) {
+      const mE = msg.match(/\((.+?)\)/), mN = msg.match(/— (.+)/);
+      if (mN) nombre = mN[1];
+      motivo = `Edad (${mE ? mE[1] : '?'}) fuera del rango permitido (15–80 años).`;
+    } else if (msg.match(/nota\d inválida/i)) {
+      const mNt = msg.match(/(nota\d)/i), mV = msg.match(/\((.+?)\)/), mN = msg.match(/— (.+)/);
+      if (mN) nombre = mN[1];
+      motivo = `La ${mNt ? mNt[1] : 'nota'} (${mV ? mV[1] : '?'}) está fuera del rango (0.0–5.0).`;
+    } else if (msg.includes("Error insertando")) {
+      const m = msg.match(/Error insertando (.+?):/); if (m) nombre = m[1];
+      motivo = "Error al insertar en la base de datos.";
+    } else if (msg.includes("vacío") || msg.includes("vacio")) {
+      tipo = "Vacío";
+    }
+    return { nombre, motivo, tipo };
+  }
+
+    // Video easter egg (presiona R)
+  (function () {
+    var eggTimer = null;
+    var vid = document.getElementById('eggVideo');
+
+    document.addEventListener('keydown', function (e) {
+      if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+      if (e.key === 'r' || e.key === 'R') showEgg();
+    });
+
+    function showEgg() {
+      var overlay = document.getElementById('eggOverlay');
+      var audio   = document.getElementById('vineAudio');
+      clearTimeout(eggTimer);
+      // reiniciar animación de overlay
+      overlay.classList.remove('show');
+      void overlay.offsetWidth;
+      overlay.classList.add('show');
+      // reiniciar y reproducir video
+      vid.currentTime = 0;
+      vid.play().catch(function(){});
+      // sonido
+      audio.currentTime = 0;
+      audio.play().catch(function(){});
+      // esconder cuando termine el video (o tras 8s máximo)
+      vid.onended = function() { overlay.classList.remove('show'); };
+      eggTimer = setTimeout(function () { overlay.classList.remove('show'); }, 8000);
+    }
+  })();
+</script>
+<script src="{{ url_for('static', filename='banana.js') }}"></script>
+</body>
+</html>

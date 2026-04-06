@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLG DASH 360 NO SCOPE</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --mlg:   #7f00ff;
+      --mlg2:  #ff00ff;
+      --cyan:  #00f0ff;
+      --bg:    #000;
+      --nav-h: 58px;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: radial-gradient(ellipse at center, #0d001a 0%, #000 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+
+    /* Scanlines */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(to bottom,
+        transparent 0px, transparent 3px,
+        rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px);
+      pointer-events: none; z-index: 999;
+    }
+
+    /* Partículas */
+    .particle {
+      position: fixed; border-radius: 50%;
+      background: var(--mlg); opacity: 0; pointer-events: none; z-index: 0;
+      animation: drift var(--d) ease-in-out infinite var(--delay);
+    }
+    @keyframes drift {
+      0%,100%{opacity:0;transform:translateY(0)scale(.4)}
+      50%{opacity:var(--op);transform:translateY(-18px)scale(1)}
+    }
+
+    /* Corner decorations */
+    .corner {
+      position: fixed; width: 44px; height: 44px; z-index: 5; pointer-events: none;
+      animation: cGlow 2.5s ease-in-out infinite alternate;
+    }
+    .corner.tl { top:14px; left:14px; border-top:2px solid var(--mlg); border-left:2px solid var(--mlg); }
+    .corner.tr { top:14px; right:14px; border-top:2px solid var(--cyan); border-right:2px solid var(--cyan); }
+    .corner.bl { bottom:14px; left:14px; border-bottom:2px solid var(--mlg2); border-left:2px solid var(--mlg2); }
+    .corner.br { bottom:14px; right:14px; border-bottom:2px solid var(--mlg); border-right:2px solid var(--mlg); }
+    @keyframes cGlow { to { filter: drop-shadow(0 0 6px currentColor); } }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(0,0,0,0.92);
+      border-bottom: 2px solid var(--mlg);
+      box-shadow: 0 0 20px rgba(127,0,255,0.4), 0 0 40px rgba(127,0,255,0.1);
+      display: flex; align-items: center;
+      padding: 0 24px; gap: 8px;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      animation: navAppear 0.4s ease both;
+    }
+    @keyframes navAppear { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+
+    .nav-brand {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px; font-weight: 900;
+      letter-spacing: 4px;
+      flex: 1;
+      animation: brandRainbow 2s infinite linear;
+    }
+    @keyframes brandRainbow {
+      0%  { color:#fff; text-shadow:0 0 12px var(--mlg); }
+      33% { color:var(--cyan); text-shadow:0 0 12px var(--cyan); }
+      66% { color:var(--mlg2); text-shadow:0 0 12px var(--mlg2); }
+      100%{ color:#fff; text-shadow:0 0 12px var(--mlg); }
+    }
+
+    .nav-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(127,0,255,0.1);
+      border: 1px solid rgba(127,0,255,0.4);
+      border-radius: 2px; padding: 4px 12px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px; font-weight: 600; letter-spacing: 2px;
+      color: rgba(0,240,255,0.7);
+      text-shadow: 0 0 6px rgba(0,240,255,0.4);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 2px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      cursor: pointer;
+      border: 1px solid var(--mlg);
+      background: rgba(127,0,255,0.08);
+      color: rgba(127,0,255,0.8);
+      transition: all 0.25s;
+      text-decoration: none;
+      white-space: nowrap;
+      text-shadow: 0 0 6px rgba(127,0,255,0.4);
+    }
+    .btn:hover {
+      background: rgba(127,0,255,0.25);
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 16px rgba(127,0,255,0.4), 0 0 30px rgba(0,240,255,0.1);
+      text-shadow: 0 0 8px var(--cyan);
+      transform: translateY(-1px);
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-logout {
+      border-color: rgba(255,0,0,0.5);
+      background: rgba(255,0,0,0.06);
+      color: rgba(255,60,60,0.8);
+      text-shadow: 0 0 6px rgba(255,0,0,0.4);
+    }
+    .btn-logout:hover {
+      background: rgba(255,0,0,0.18);
+      border-color: #ff4444;
+      color: #ff4444;
+      box-shadow: 0 0 16px rgba(255,0,0,0.35);
+      text-shadow: 0 0 8px #ff4444;
+    }
+
+    /* ── iframe ── */
+    .frame-wrap {
+      margin-top: var(--nav-h);
+      flex: 1; overflow: hidden;
+      animation: fadeIn 0.5s 0.2s ease both;
+    }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    iframe {
+      width: 100%;
+      height: calc(100vh - var(--nav-h));
+      min-height: 900px;
+      border: none; display: block;
+    }
+
+        /* ── VIDEO EASTER EGG (presiona R) ── */
+    #eggOverlay {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      opacity: 0; transition: opacity 0.35s ease;
+    }
+    #eggOverlay.show { opacity: 1; }
+    #eggVideo {
+      width: clamp(260px, 32vw, 480px);
+      height: auto;
+      /* chroma-key verde: screen quita el fondo verde del webm */
+      mix-blend-mode: screen;
+      filter: saturate(1.4) contrast(1.1);
+      display: block;
+      /* sin border ni sombra: el video flota libremente sobre la UI */
+    }
+  </style>
+</head>
+<body>
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<nav>
+  <div class="nav-brand">
+    <span>🎮</span> MLG DASH · NOTAS
+  </div>
+
+  <a class="btn" href="/carga_masiva">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    CARGA MASIVA
+  </a>
+
+  <a class="btn" href="/editar_estudiante">
+    ✏️ EDITAR
+  </a>
+
+  <a class="btn" href="/top_estudiantes">
+    🏆 TOP 10
+  </a>
+
+  <span class="nav-badge">
+    👾 {{ usuario }}
+  </span>
+
+  <a class="btn btn-logout" href="/logout">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    SALIR
+  </a>
+</nav>
+
+<div class="frame-wrap">
+  <iframe src="/dashprincipal/"></iframe>
+</div>
+
+<!-- VIDEO EASTER EGG (presiona R) -->
+<div id="eggOverlay">
+  <video id="eggVideo" src="/static/chroma-keyed-video.webm" preload="auto" playsinline></video>
+</div>
+<audio id="vineAudio" src="/static/Vine boom sound effect.mp3" preload="auto"></audio>
+
+<script>
+  // Partículas
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const sz = Math.random() * 2.5 + 1;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;--d:${3+Math.random()*5}s;--delay:-${Math.random()*5}s;--op:${.1+Math.random()*.25};`;
+    document.body.appendChild(p);
+  }
+
+    // Video easter egg — también captura teclas dentro del iframe (presiona R)
+  (function () {
+    var eggTimer = null;
+    var iframe   = document.querySelector('iframe');
+    var vid      = document.getElementById('eggVideo');
+
+    function onKey(e) {
+      if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+      if (e.key === 'r' || e.key === 'R') showEgg();
+    }
+
+    window.addEventListener('keydown', onKey);
+
+    function attachIframeListener() {
+      try {
+        var iWin = iframe.contentWindow;
+        iWin.removeEventListener('keydown', onKey);
+        iWin.addEventListener('keydown', onKey);
+      } catch(err) {}
+    }
+    iframe.addEventListener('load', attachIframeListener);
+    setInterval(attachIframeListener, 1500);
+
+    function showEgg() {
+      var overlay = document.getElementById('eggOverlay');
+      var audio   = document.getElementById('vineAudio');
+      clearTimeout(eggTimer);
+      overlay.classList.remove('show');
+      void overlay.offsetWidth;
+      overlay.classList.add('show');
+      vid.currentTime = 0;
+      vid.play().catch(function(){});
+      audio.currentTime = 0;
+      audio.play().catch(function(){});
+      vid.onended = function() { overlay.classList.remove('show'); };
+      eggTimer = setTimeout(function () { overlay.classList.remove('show'); }, 8000);
+    }
+  })();
+</script>
+<script src="{{ url_for('static', filename='banana.js') }}"></script>
+</body>
+</html>

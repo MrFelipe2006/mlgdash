@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLG Login 360 NO SCOPE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  #bg {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, #0d001a 0%, #000 100%);
+    z-index: 0;
+  }
+
+  /* ── VIDEO ── */
+  #videoBg {
+    position: fixed; inset: 0; z-index: 1;
+    opacity: 0; transition: opacity 0.8s;
+    pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+    background: #000;
+  }
+  #videoBg.active { opacity: 1; }
+  #videoBg video  { width: 100vw; height: 100vh; object-fit: cover; }
+
+  #videoDim {
+    position: fixed; inset: 0; z-index: 2;
+    background: rgba(0,0,0,0.4);
+    opacity: 0; pointer-events: none; transition: opacity 0.8s;
+  }
+  #videoDim.active { opacity: 1; }
+
+  /* ── HINT ── */
+  #hint {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.5);
+    font-size: 12px; letter-spacing: 3px;
+    text-transform: uppercase; z-index: 20;
+    white-space: nowrap; transition: opacity 0.5s;
+    animation: hintPulse 2s ease-in-out infinite;
+  }
+  @keyframes hintPulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+
+  /* ── FORM ── */
+  #formWrap {
+    position: relative; z-index: 10;
+    opacity: 0; transform: scale(0.88) translateY(20px);
+    transition: opacity 0.8s, transform 0.8s;
+    pointer-events: none;
+  }
+  #formWrap.visible {
+    opacity: 1; transform: scale(1) translateY(0); pointer-events: all;
+  }
+
+  .card {
+    background: rgba(10,0,20,0.75);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(127,0,255,0.25);
+    border-radius: 4px;
+    padding: 48px 52px; width: 390px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 40px rgba(127,0,255,0.08);
+    transition: all 1.2s cubic-bezier(.23,1,.32,1);
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; top: -50%; left: -60%;
+    width: 50%; height: 200%;
+    background: linear-gradient(105deg, transparent, rgba(127,0,255,0.06), transparent);
+    animation: shine 5s ease-in-out infinite;
+  }
+  @keyframes shine { 0%,100%{left:-60%;opacity:0} 40%{opacity:1} 70%{left:160%;opacity:0} }
+
+  /* Logo */
+  .logo { text-align: center; margin-bottom: 30px; }
+  .logo h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px; color: #fff; letter-spacing: 4px;
+    transition: all 1s;
+  }
+  .logo p {
+    color: rgba(255,255,255,0.35); font-size: 11px;
+    letter-spacing: 2px; margin-top: 4px; transition: all 1s;
+  }
+
+  label {
+    display: block; color: rgba(255,255,255,0.45);
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 6px; margin-top: 20px; transition: color 0.5s;
+  }
+
+  input[type=text], input[type=password] {
+    width: 100%;
+    background: rgba(127,0,255,0.05);
+    border: 1px solid rgba(127,0,255,0.2);
+    border-radius: 2px; color: #fff;
+    padding: 11px 14px; font-size: 14px;
+    font-family: 'Rajdhani', sans-serif;
+    outline: none; transition: all 0.4s;
+    caret-color: #ff00ff;
+  }
+  input:focus {
+    border-color: rgba(127,0,255,0.7);
+    background: rgba(127,0,255,0.08);
+    box-shadow: 0 0 14px rgba(127,0,255,0.2);
+  }
+  input::placeholder { color: rgba(127,0,255,0.3); }
+
+  button.loginBtn {
+    width: 100%; margin-top: 26px; padding: 13px; border: none;
+    border-radius: 2px; cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 4px;
+    background: linear-gradient(90deg, #5500cc, #7f00ff);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(127,0,255,0.4);
+    transition: all 0.35s;
+  }
+  button.loginBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(127,0,255,0.65);
+  }
+  button.loginBtn:active { transform: scale(0.97); }
+
+  .error-msg {
+    margin-top: 14px; padding: 10px 14px;
+    background: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.4);
+    border-radius: 2px; color: #ff4444;
+    font-size: 12px; letter-spacing: 1px; text-align: center;
+    text-shadow: 0 0 6px rgba(255,0,0,0.4);
+  }
+
+  .sub {
+    text-align: center; margin-top: 18px;
+    font-size: 12px; color: rgba(255,255,255,0.22); letter-spacing: 1px;
+  }
+  .sub a { color: rgba(127,0,255,0.75); text-decoration: none; transition: color 0.2s; }
+  .sub a:hover { color: #00f0ff; text-shadow: 0 0 8px #00f0ff; }
+
+  /* ===== MLG MODE ===== */
+  body.mlg-mode #bg {
+    background: radial-gradient(ellipse at center, #1a0030 0%, #000 100%);
+  }
+  body.mlg-mode .card {
+    background: rgba(0,0,0,0.65); backdrop-filter: blur(16px);
+    border: 2px solid #7f00ff; border-radius: 3px;
+    box-shadow: 0 0 30px #7f00ff, 0 0 80px #ff00ff33, inset 0 0 30px rgba(127,0,255,0.06);
+    animation: cardGlitch 4s infinite;
+  }
+  @keyframes cardGlitch {
+    0%,100%{ box-shadow:0 0 30px #7f00ff,0 0 80px #ff00ff33; border-color:#7f00ff; transform:translateX(0); }
+    10%    { box-shadow:0 0 50px #ff00ff,0 0 100px #ff00ff44; border-color:#ff00ff; transform:translateX(3px); }
+    12%    { transform:translateX(-3px); }
+    14%    { transform:translateX(0); }
+    50%    { border-color:#00f0ff; box-shadow:0 0 40px #00f0ff,0 0 80px #00f0ff33; }
+  }
+  body.mlg-mode .logo h1 {
+    font-size: 26px; letter-spacing: 8px;
+    animation: titleRainbow 1s infinite linear;
+  }
+  @keyframes titleRainbow {
+    0%  { color:#fff; text-shadow:0 0 15px #7f00ff,0 0 40px #ff00ff; }
+    33% { color:#00f0ff; text-shadow:0 0 15px #00f0ff,0 0 40px #7f00ff; }
+    66% { color:#ff00ff; text-shadow:0 0 15px #ff00ff,0 0 40px #00f0ff; }
+    100%{ color:#fff; text-shadow:0 0 15px #7f00ff,0 0 40px #ff00ff; }
+  }
+  body.mlg-mode .logo p {
+    color:#00f0ff; text-shadow:0 0 8px #00f0ff;
+    letter-spacing:4px; animation:blink 0.8s step-end infinite;
+  }
+  @keyframes blink { 50%{opacity:0.3} }
+  body.mlg-mode label { color:#00f0ff; text-shadow:0 0 6px #00f0ff; letter-spacing:3px; }
+  body.mlg-mode input[type=text],
+  body.mlg-mode input[type=password] {
+    background: rgba(0,0,0,0.55); border: 1px solid #7f00ff;
+    border-radius: 2px; color: #0ff;
+    text-shadow: 0 0 6px #0ff; box-shadow: 0 0 10px rgba(127,0,255,0.3);
+    caret-color: #ff00ff;
+  }
+  body.mlg-mode input::placeholder { color: rgba(0,240,255,0.3); }
+  body.mlg-mode button.loginBtn {
+    background: linear-gradient(90deg, #ff00ff, #7f00ff, #00f0ff, #ff00ff);
+    background-size: 300% 100%;
+    animation: btnShift 1.5s infinite linear;
+    border-radius: 2px; letter-spacing:6px;
+    text-shadow:0 0 8px #fff;
+    box-shadow:0 0 20px #ff00ff,0 0 40px #7f00ff55;
+  }
+  @keyframes btnShift { 0%{background-position:0%} 100%{background-position:300%} }
+  body.mlg-mode .sub { color:rgba(255,0,255,0.5); }
+  body.mlg-mode .sub a { color:#ff00ff; text-shadow:0 0 6px #ff00ff; }
+  body.mlg-mode .sub a:hover { color:#00f0ff; text-shadow:0 0 8px #00f0ff; }
+  body.mlg-mode #hint { color:#00f0ff; text-shadow:0 0 8px #00f0ff; letter-spacing:3px; }
+
+  /* Scanlines */
+  body.mlg-mode::after {
+    content:''; position:fixed; inset:0;
+    background: repeating-linear-gradient(to bottom,
+      transparent 0px, transparent 3px,
+      rgba(0,0,0,0.10) 3px, rgba(0,0,0,0.10) 4px);
+    pointer-events:none; z-index:998;
+  }
+
+  /* Corner brackets */
+  .corner { position:fixed; width:56px; height:56px; opacity:0; transition:opacity 1s; z-index:15; pointer-events:none; }
+  .corner.tl { top:16px; left:16px; border-top:2px solid #7f00ff; border-left:2px solid #7f00ff; }
+  .corner.tr { top:16px; right:16px; border-top:2px solid #00f0ff; border-right:2px solid #00f0ff; }
+  .corner.bl { bottom:16px; left:16px; border-bottom:2px solid #ff00ff; border-left:2px solid #ff00ff; }
+  .corner.br { bottom:16px; right:16px; border-bottom:2px solid #7f00ff; border-right:2px solid #7f00ff; }
+  body.mlg-mode .corner { opacity:1; animation:cornerPulse 2s infinite alternate; }
+  @keyframes cornerPulse { to { filter:drop-shadow(0 0 8px currentColor); } }
+
+  /* Floaty emojis */
+  .mlg-floaty {
+    position:fixed; pointer-events:none; z-index:12;
+    animation: floatUp 3s ease-out forwards;
+  }
+  @keyframes floatUp {
+    0%  { opacity:0; transform:translateY(0) rotate(0deg) scale(0.5); }
+    15% { opacity:1; }
+    85% { opacity:1; }
+    100%{ opacity:0; transform:translateY(-220px) rotate(720deg) scale(1.6); }
+  }
+
+  /* Particles (always visible) */
+  .particle {
+    position: fixed; border-radius: 50%;
+    background: #7f00ff; opacity: 0; pointer-events: none; z-index: 0;
+    animation: drift var(--d) ease-in-out infinite var(--delay);
+  }
+  @keyframes drift {
+    0%,100%{opacity:0;transform:translateY(0)scale(.4)}
+    50%{opacity:var(--op);transform:translateY(-16px)scale(1)}
+  }
+</style>
+</head>
+<body>
+
+<div id="bg"></div>
+
+<div id="videoBg">
+  <video id="vid" src="{{ url_for('static', filename='2016 memes that will never die [mlg memes].mp4') }}" preload="auto" playsinline></video>
+</div>
+<div id="videoDim"></div>
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<div id="formWrap">
+  <div class="card">
+    <div class="logo">
+      <h1 id="logoTitle">INITIATE</h1>
+      <p id="logoSub">access terminal</p>
+    </div>
+
+    <form method="POST" action="/">
+      <label>Usuario</label>
+      <input type="text" name="username" placeholder="tu_gamertag_420" required autocomplete="username">
+      <label>Contraseña</label>
+      <input type="password" name="password" placeholder="••••••••" required autocomplete="current-password">
+      <button class="loginBtn" type="submit" onclick="event.stopPropagation()">ENTRAR</button>
+    </form>
+
+    {% if error %}
+    <div class="error-msg">⚠️ {{ error }}</div>
+    {% endif %}
+
+    <p class="sub">¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
+  </div>
+</div>
+
+<p id="hint">▶ haz click en el fondo para iniciar</p>
+
+<script>
+  const EMOJIS = ['💥','🔥','👊','💯','🎯','⚡','💎','🏆','👑','🎮','🌀','💀','😎','🕶️'];
+  let mlgActive  = false;
+  let floatyTimer = null;
+
+  const vid      = document.getElementById('vid');
+  const videoBg  = document.getElementById('videoBg');
+  const videoDim = document.getElementById('videoDim');
+  const hint     = document.getElementById('hint');
+
+  // Partículas de fondo
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div'); p.className = 'particle';
+    const sz = Math.random() * 2.5 + 1;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;--d:${3+Math.random()*5}s;--delay:-${Math.random()*5}s;--op:${.1+Math.random()*.2};`;
+    document.body.appendChild(p);
+  }
+
+  // Aparición del form
+  setTimeout(() => document.getElementById('formWrap').classList.add('visible'), 300);
+
+  // Click en fondo → reproducir video SIEMPRE
+  document.body.addEventListener('click', e => {
+    if (e.target.closest('#formWrap')) return;
+    playVideo();
+  });
+
+  function playVideo() {
+    vid.currentTime = 0;
+    vid.play();
+    videoBg.style.transition = 'opacity 0.8s';
+    videoBg.style.opacity    = '0';
+    videoBg.classList.add('active');
+    videoDim.classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => { videoBg.style.opacity = '1'; }));
+    hint.style.opacity      = '0';
+    hint.style.pointerEvents = 'none';
+  }
+
+  vid.addEventListener('ended', () => {
+    // Fade out video
+    videoBg.style.transition  = 'opacity 1.2s';
+    videoBg.style.opacity     = '0';
+    videoDim.style.transition = 'opacity 1.2s';
+    videoDim.style.opacity    = '0';
+    setTimeout(() => {
+      videoBg.classList.remove('active');
+      videoDim.classList.remove('active');
+      videoBg.style.opacity  = '';
+      videoDim.style.opacity = '';
+    }, 1300);
+
+    // Activar modo MLG solo la primera vez
+    if (!mlgActive) {
+      setTimeout(activateMLG, 600);
+    }
+
+    // Restaurar hint para permitir repetir
+    setTimeout(() => {
+      hint.style.opacity       = '';
+      hint.style.pointerEvents = '';
+      hint.textContent = '▶ click para volver a ver ◀';
+    }, 1400);
+  });
+
+  function activateMLG() {
+    mlgActive = true;
+    document.body.classList.add('mlg-mode');
+    document.getElementById('logoTitle').textContent = 'MLG 420';
+    document.getElementById('logoSub').textContent   = '▶ 360 NO SCOPE ◀';
+
+    let count = 0;
+    floatyTimer = setInterval(() => {
+      spawnFloaty();
+      if (++count > 20) clearInterval(floatyTimer);
+    }, 450);
+  }
+
+  function spawnFloaty() {
+    const el = document.createElement('div');
+    el.className   = 'mlg-floaty';
+    el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+    el.style.left      = (Math.random() * 88 + 4)  + 'vw';
+    el.style.top       = (Math.random() * 75 + 10) + 'vh';
+    el.style.fontSize  = (28 + Math.random() * 44) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3200);
+  }
+
+  // ── KONAMI CODE → /juego ──────────────────────────────────────────────────
+  // Secuencia: ↑ ↑ ↓ ↓ ← → ← → b a
+  const KONAMI = [
+    'ArrowUp','ArrowUp','ArrowDown','ArrowDown',
+    'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight',
+    'KeyB','KeyA'
+  ];
+  let konamiIdx = 0;
+
+  document.addEventListener('keydown', e => {
+    if (e.code === KONAMI[konamiIdx]) {
+      konamiIdx++;
+      if (konamiIdx === KONAMI.length) {
+        konamiIdx = 0;
+        // Lanzar efecto visual antes de redirigir
+        let c = 0;
+        const blast = setInterval(() => { spawnFloaty(); if(++c > 30) clearInterval(blast); }, 80);
+        setTimeout(() => { window.location.href = '/juego'; }, 1200);
+      }
+    } else {
+      konamiIdx = e.code === KONAMI[0] ? 1 : 0;
+    }
+  });
+</script>
+</body>
+</html>
