@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLG REGISTER 420 NO SCOPE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --mlg:  #7f00ff;
+    --mlg2: #ff00ff;
+    --cyan: #00f0ff;
+  }
+
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at center, #0d001a 0%, #000 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    overflow: hidden; user-select: none;
+  }
+
+  .scanlines {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background: repeating-linear-gradient(to bottom,
+      transparent 0px, transparent 3px,
+      rgba(0,0,0,0.09) 3px, rgba(0,0,0,0.09) 4px);
+  }
+
+  .particle {
+    position: fixed; border-radius: 50%;
+    background: var(--mlg); opacity: 0; pointer-events: none; z-index: 0;
+    animation: drift var(--d) ease-in-out infinite var(--delay);
+  }
+  @keyframes drift {
+    0%,100%{opacity:0;transform:translateY(0)scale(.4)}
+    50%{opacity:var(--op);transform:translateY(-18px)scale(1)}
+  }
+
+  .corner { position:fixed; width:52px; height:52px; z-index:5; pointer-events:none; animation:cGlow 2.5s ease-in-out infinite alternate; }
+  .corner.tl{top:16px;left:16px;border-top:2px solid var(--mlg);border-left:2px solid var(--mlg);}
+  .corner.tr{top:16px;right:16px;border-top:2px solid var(--cyan);border-right:2px solid var(--cyan);}
+  .corner.bl{bottom:16px;left:16px;border-bottom:2px solid var(--mlg2);border-left:2px solid var(--mlg2);}
+  .corner.br{bottom:16px;right:16px;border-bottom:2px solid var(--mlg);border-right:2px solid var(--mlg);}
+  @keyframes cGlow { to { filter: drop-shadow(0 0 7px currentColor); } }
+
+  #videoBg {
+    position: fixed; inset: 0; z-index: 2;
+    opacity: 0; pointer-events: none; transition: opacity 0.8s;
+    background: #000; display: flex; align-items: center; justify-content: center;
+  }
+  #videoBg.active { opacity: 1; }
+  #videoBg video  { width: 100vw; height: 100vh; object-fit: cover; }
+
+  #videoDim {
+    position: fixed; inset: 0; z-index: 3;
+    background: rgba(0,0,0,0.42);
+    opacity: 0; pointer-events: none; transition: opacity 0.8s;
+  }
+  #videoDim.active { opacity: 1; }
+
+  #hint {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    color: var(--cyan); font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; z-index: 20; white-space: nowrap;
+    text-shadow: 0 0 8px var(--cyan);
+    animation: hintPulse 2s ease-in-out infinite;
+    transition: opacity 0.4s;
+  }
+  @keyframes hintPulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+  #hint.dim { opacity: 0.1; pointer-events: none; }
+
+  #formWrap {
+    position: relative; z-index: 10;
+    opacity: 0; transform: scale(0.88) translateY(20px);
+    transition: opacity 0.8s, transform 0.8s;
+    pointer-events: none;
+  }
+  #formWrap.visible { opacity: 1; transform: scale(1) translateY(0); pointer-events: all; }
+
+  .card {
+    background: rgba(5,0,15,0.75);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 2px solid var(--mlg); border-radius: 3px;
+    padding: 44px 50px; width: 400px;
+    box-shadow: 0 0 30px rgba(127,0,255,0.5), 0 0 80px rgba(255,0,255,0.12), inset 0 0 30px rgba(127,0,255,0.04);
+    animation: cardPulse 3s ease-in-out infinite;
+    position: relative; overflow: hidden;
+  }
+  @keyframes cardPulse {
+    0%,100%{box-shadow:0 0 30px rgba(127,0,255,.5),0 0 80px rgba(255,0,255,.12);border-color:var(--mlg);}
+    33%    {box-shadow:0 0 40px rgba(0,240,255,.4),0 0 80px rgba(0,240,255,.12);border-color:var(--cyan);}
+    66%    {box-shadow:0 0 40px rgba(255,0,255,.5),0 0 80px rgba(255,0,255,.18);border-color:var(--mlg2);}
+  }
+  .card::before {
+    content:''; position:absolute; top:-50%; left:-60%;
+    width:50%; height:200%;
+    background:linear-gradient(105deg,transparent,rgba(127,0,255,0.07),transparent);
+    animation:shine 5s ease-in-out infinite;
+  }
+  @keyframes shine { 0%,100%{left:-60%;opacity:0} 40%{opacity:1} 70%{left:160%;opacity:0} }
+
+  .logo { text-align: center; margin-bottom: 26px; }
+  .logo-icon { font-size: 30px; display: block; margin-bottom: 8px; animation: iconBounce 1.5s ease-in-out infinite; }
+  @keyframes iconBounce { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-6px) rotate(5deg)} }
+  .logo h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px; font-weight: 900; letter-spacing: 6px;
+    animation: titleRainbow 2s infinite linear;
+  }
+  @keyframes titleRainbow {
+    0%  {color:#fff;text-shadow:0 0 15px var(--mlg),0 0 40px var(--mlg2);}
+    33% {color:var(--cyan);text-shadow:0 0 15px var(--cyan),0 0 40px var(--mlg);}
+    66% {color:var(--mlg2);text-shadow:0 0 15px var(--mlg2),0 0 40px var(--cyan);}
+    100%{color:#fff;text-shadow:0 0 15px var(--mlg),0 0 40px var(--mlg2);}
+  }
+  .logo p {
+    color: var(--cyan); font-size: 10px; letter-spacing: 4px; margin-top: 4px;
+    text-transform: uppercase; text-shadow: 0 0 8px var(--cyan);
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50%{opacity:0.3} }
+
+  .divider {
+    height: 1px; margin: 18px 0 8px;
+    background: linear-gradient(90deg, transparent, var(--mlg), var(--mlg2), transparent);
+    box-shadow: 0 0 8px rgba(127,0,255,0.4);
+  }
+
+  label {
+    display: block; color: var(--cyan); font-size: 10px;
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 6px; margin-top: 18px;
+    text-shadow: 0 0 6px var(--cyan);
+  }
+
+  input[type=text], input[type=password] {
+    width: 100%; background: rgba(0,0,0,0.6);
+    border: 1px solid var(--mlg); border-radius: 2px;
+    color: var(--cyan); caret-color: var(--mlg2);
+    padding: 11px 14px; font-size: 14px;
+    font-family: 'Rajdhani', sans-serif;
+    outline: none; transition: all 0.4s;
+    text-shadow: 0 0 5px rgba(0,240,255,0.3);
+    box-shadow: 0 0 8px rgba(127,0,255,0.15);
+  }
+  input:focus { border-color: var(--cyan); background: rgba(0,240,255,0.04); box-shadow: 0 0 16px rgba(0,240,255,0.2); }
+  input::placeholder { color: rgba(0,240,255,0.22); }
+
+  button.registerBtn {
+    width: 100%; margin-top: 24px; padding: 13px; border: none;
+    border-radius: 2px; cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 4px;
+    background: linear-gradient(90deg, var(--mlg2), var(--mlg), var(--cyan), var(--mlg2));
+    background-size: 300% 100%;
+    animation: btnShift 2s infinite linear;
+    color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.5);
+    box-shadow: 0 0 20px rgba(127,0,255,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  @keyframes btnShift { 0%{background-position:0%} 100%{background-position:300%} }
+  button.registerBtn:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,240,255,0.5); }
+  button.registerBtn:active { transform: scale(0.97); }
+
+  .error-msg {
+    margin-top: 14px; padding: 10px 14px;
+    background: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.4);
+    border-radius: 2px; color: #ff4444; font-size: 12px;
+    letter-spacing: 1px; text-align: center;
+    text-shadow: 0 0 6px rgba(255,0,0,0.4);
+  }
+  .success-msg {
+    margin-top: 14px; padding: 10px 14px;
+    background: rgba(0,240,255,0.07); border: 1px solid rgba(0,240,255,0.35);
+    border-radius: 2px; color: var(--cyan); font-size: 12px;
+    letter-spacing: 1px; text-align: center; text-shadow: 0 0 6px var(--cyan);
+  }
+  .success-msg a { color: var(--mlg2); text-decoration: none; text-shadow: 0 0 6px var(--mlg2); }
+
+  .sub {
+    text-align: center; margin-top: 16px;
+    font-size: 12px; color: rgba(255,0,255,0.35); letter-spacing: 1px;
+  }
+  .sub a { color: var(--cyan); text-decoration: none; text-shadow: 0 0 6px var(--cyan); transition: color 0.2s; }
+  .sub a:hover { color: var(--mlg2); text-shadow: 0 0 8px var(--mlg2); }
+
+  .floaty {
+    position: fixed; pointer-events: none; z-index: 12;
+    animation: floatUp 3s ease-out forwards;
+  }
+  @keyframes floatUp {
+    0%  {opacity:0;transform:translateY(0) rotate(0deg) scale(0.5);}
+    15% {opacity:1;}
+    85% {opacity:1;}
+    100%{opacity:0;transform:translateY(-210px) rotate(720deg) scale(1.5);}
+  }
+</style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<div id="videoBg">
+  <video id="vid" src="{{ url_for('static', filename='2016 memes that will never die [mlg memes].mp4') }}" preload="auto" playsinline></video>
+</div>
+<div id="videoDim"></div>
+
+<div id="formWrap">
+  <div class="card">
+    <div class="logo">
+      <span class="logo-icon">💥</span>
+      <h1>CREAR CUENTA</h1>
+      <p>▶ ÚNETE A LA ARENA ◀</p>
+    </div>
+    <div class="divider"></div>
+
+    <form method="POST" action="/register">
+      <label>Usuario</label>
+      <input type="text" name="username" placeholder="tu_gamertag_420" required autocomplete="username">
+      <label>Contraseña</label>
+      <input type="password" name="password" placeholder="••••••••" required autocomplete="new-password">
+      <label>Confirmar contraseña</label>
+      <input type="password" name="confirm" placeholder="••••••••" required autocomplete="new-password">
+      <button type="submit" class="registerBtn" onclick="event.stopPropagation()">💥 REGISTRARME</button>
+    </form>
+
+    {% if error %}
+    <div class="error-msg">⚠️ {{ error }}</div>
+    {% endif %}
+    {% if success %}
+    <div class="success-msg">{{ success }} <a href="/">IR AL LOGIN →</a></div>
+    {% endif %}
+
+    <p class="sub">¿Ya tienes cuenta? <a href="/">Iniciar sesión</a></p>
+  </div>
+</div>
+
+<p id="hint">▶ haz click en el fondo para activar el modo MLG ◀</p>
+
+<script>
+  const EMOJIS  = ['💥','🔥','👊','💯','🎯','⚡','💎','🏆','👑','🎮','💀','😎','🕶️','🌀'];
+  let playing   = false;   // true mientras el video está en pantalla
+  let firstTime = true;    // floaty emojis solo la primera vez
+
+  const vid      = document.getElementById('vid');
+  const videoBg  = document.getElementById('videoBg');
+  const videoDim = document.getElementById('videoDim');
+  const hint     = document.getElementById('hint');
+
+  // Partículas de fondo
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div'); p.className = 'particle';
+    const sz = Math.random() * 2.5 + 1;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;--d:${3+Math.random()*5}s;--delay:-${Math.random()*5}s;--op:${.1+Math.random()*.2};`;
+    document.body.appendChild(p);
+  }
+
+  // Form fade-in
+  setTimeout(() => document.getElementById('formWrap').classList.add('visible'), 300);
+
+  // Click en fondo → lanzar video (o reiniciarlo si ya corre)
+  document.body.addEventListener('click', e => {
+    if (e.target.closest('#formWrap')) return;
+    playVideo();
+  });
+
+  function playVideo() {
+    if (playing) {
+      // Reiniciar desde el principio si ya está corriendo
+      vid.currentTime = 0;
+      vid.play();
+      return;
+    }
+    // Primera vez o después de que terminó: mostrar video
+    playing = true;
+    vid.currentTime = 0;
+    vid.play();
+    videoBg.style.transition = 'opacity 0.8s';
+    videoBg.style.opacity    = '0';
+    videoBg.classList.add('active');
+    videoDim.classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => { videoBg.style.opacity = '1'; }));
+    hint.classList.add('dim');
+  }
+
+  vid.addEventListener('ended', () => {
+    playing = false;
+
+    // Fade out video
+    videoBg.style.transition  = 'opacity 1.2s';
+    videoBg.style.opacity     = '0';
+    videoDim.style.transition = 'opacity 1.2s';
+    videoDim.style.opacity    = '0';
+    setTimeout(() => {
+      videoBg.classList.remove('active');
+      videoDim.classList.remove('active');
+      videoBg.style.opacity  = '';
+      videoDim.style.opacity = '';
+    }, 1300);
+
+    // Emojis flotantes la primera vez que termina
+    if (firstTime) {
+      firstTime = false;
+      setTimeout(() => {
+        let count = 0;
+        const t = setInterval(() => { spawnFloaty(); if (++count > 16) clearInterval(t); }, 380);
+      }, 500);
+    }
+
+    // Restaurar hint → permite volver a hacer click
+    setTimeout(() => {
+      hint.classList.remove('dim');
+      hint.textContent = '▶ click para volver a ver ◀';
+    }, 1400);
+  });
+
+  function spawnFloaty() {
+    const el = document.createElement('div');
+    el.className   = 'floaty';
+    el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+    el.style.left     = (Math.random() * 88 + 4)  + 'vw';
+    el.style.top      = (Math.random() * 75 + 10) + 'vh';
+    el.style.fontSize = (24 + Math.random() * 42) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3200);
+  }
+</script>
+</body>
+</html>
